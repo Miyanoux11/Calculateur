@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Calculateur de ventes en détails</title>
+</head>
+
+<body>
+    <div class="column-layout">
+        <h1>Calculateur de ventes en détails</h1>
+        <input type="number" id="price" placeholder="Prix de l'article">
+        <input type="number" id="quantity" placeholder="Quantité de l'article">
+        <select name="taxeState" id="taxeState">
+            <option value="UT">UT</option>
+            <option value="NT">NT</option>
+            <option value="NV">NV</option>
+            <option value="TX">TX</option>
+            <option value="AL">AL</option>
+            <option value="CA">CA</option>
+        </select>
+        <button onclick="display()">Afficher le résultat</button>
+        <p id="output"></p>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
