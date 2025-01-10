@@ -25,31 +25,34 @@ function getTaxe() {
     }
     return taxeValue;
 }
-function getTotalPrice() {
+function getPrice() {
     var price = parseFloat(getPriceArticle());
     var taxe = getTaxe();
     return (price + price * taxe).toString();
 }
 function getDiscount(price) {
     if (parseFloat(price) > 1000) {
+        if (parseFloat(price) > 5000) {
+            if (parseFloat(price) > 7000) {
+                if (parseFloat(price) > 10000) {
+                    if (parseFloat(price) > 50000) {
+                        return 0.15;
+                    }
+                    return 0.1;
+                }
+                return 0.0;
+            }
+            return 0.05;
+        }
         return 0.03;
-    }
-    else if (parseFloat(price) > 5000) {
-        return 0.05;
-    }
-    else if (parseFloat(price) > 7000) {
-        return 0.07;
-    }
-    else if (parseFloat(price) > 10000) {
-        return 0.1;
-    }
-    else if (parseFloat(price) > 50000) {
-        return 0.15;
     }
     return 0;
 }
+function getTotalPrice() {
+    return (parseFloat(getPrice()) - parseFloat(getPrice()) * getDiscount(getPrice())).toString();
+}
 function display() {
-    var output = (parseFloat(getTotalPrice()) - parseFloat(getTotalPrice()) * getDiscount(getTotalPrice())).toString();
+    var output = getTotalPrice();
     var formatter = new Intl.NumberFormat('fr-FR', {
         style: 'currency',
         currency: 'EUR',
@@ -57,6 +60,6 @@ function display() {
     var outputFormatted = formatter.format(parseFloat(output));
     var displayElement = document.getElementById("output");
     if (displayElement) {
-        displayElement.textContent = outputFormatted;
+        displayElement.innerHTML = outputFormatted + "<br>" + "Réduction appliquée: " + (getDiscount(getPrice()) * 100).toString() + "%";
     }
 }

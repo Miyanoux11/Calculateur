@@ -13,48 +13,52 @@ function getTaxe() {
     if (taxeElement.value == "NV") {
         taxeValue = 0.08;
     }
-    else if(taxeElement.value == "TX") {
+    else if (taxeElement.value == "TX") {
         taxeValue = 0.0625;
     }
-    else if(taxeElement.value == "UT") {
+    else if (taxeElement.value == "UT") {
         taxeValue = 0.0685;
     }
-    else if(taxeElement.value == "AL") {
+    else if (taxeElement.value == "AL") {
         taxeValue = 0.04;
     }
-    else if(taxeElement.value == "CA") {
+    else if (taxeElement.value == "CA") {
         taxeValue = 0.0825;
     }
     return taxeValue;
 }
 
-function getTotalPrice() {
+function getPrice() {
     const price = parseFloat(getPriceArticle());
     const taxe = getTaxe();
     return (price + price * taxe).toString();
 }
 
 function getDiscount(price: string) {
-    if(parseFloat(price) > 1000) {
+    if (parseFloat(price) > 1000) {
+        if (parseFloat(price) > 5000) {
+            if (parseFloat(price) > 7000) {
+                if (parseFloat(price) > 10000) {
+                    if (parseFloat(price) > 50000) {
+                        return 0.15;
+                    }
+                    return 0.1;
+                }
+                return 0.0;
+            }
+            return 0.05;
+        }
         return 0.03;
-    }
-    else if(parseFloat(price) > 5000) {
-        return 0.05;
-    }
-    else if(parseFloat(price) > 7000) {
-        return 0.07;
-    }
-    else if(parseFloat(price) > 10000) {
-        return 0.1;
-    }
-    else if(parseFloat(price) > 50000) {
-        return 0.15;
     }
     return 0;
 }
 
+function getTotalPrice() {
+    return (parseFloat(getPrice()) - parseFloat(getPrice()) * getDiscount(getPrice())).toString();
+}
+
 function display() {
-    const output = (parseFloat(getTotalPrice()) - parseFloat(getTotalPrice()) * getDiscount(getTotalPrice())).toString();
+    const output = getTotalPrice();
     const formatter = new Intl.NumberFormat('fr-FR', {
         style: 'currency',
         currency: 'EUR',
@@ -62,6 +66,6 @@ function display() {
     const outputFormatted = formatter.format(parseFloat(output));
     const displayElement = document.getElementById("output");
     if (displayElement) {
-        displayElement.textContent = outputFormatted;
+        displayElement.innerHTML = outputFormatted + `<br>` + "Réduction appliquée: " + (getDiscount(getPrice()) * 100).toString() + "%";
     }
 }
